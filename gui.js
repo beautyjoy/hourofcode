@@ -1432,6 +1432,9 @@ IDE_Morph.prototype.fixLayout = function (situation) {
             this.corral.setHeight(this.bottom() - this.corral.top());
             this.corral.fixLayout();
         }
+        window.corralPos = this.corralBar.position();
+        window.corralPos.width = this.corralBar.width();
+        window.corralPos.height = this.corralBar.height() + this.corral.height();
     }
 
     Morph.prototype.trackChanges = true;
@@ -1705,11 +1708,11 @@ IDE_Morph.prototype.applySavedSettings = function () {
         plainprototype = this.getSetting('plainprototype');
 
     // design
-    if (design === 'flat') {
+    //if (design === 'flat') {
         this.setFlatDesign();
-    } else {
-        this.setDefaultDesign();
-    }
+    //} else {
+        //this.setDefaultDesign();
+    //}
 
     // blocks zoom
     if (zoom) {
@@ -2670,6 +2673,10 @@ IDE_Morph.prototype.saveProjectToDisk = function () {
     }
 };
 
+IDE_Morph.prototype.exportProjectToStr = function () {
+    return this.serializer.serialize(this.stage);
+};
+
 IDE_Morph.prototype.exportProject = function (name, plain) {
     var menu, str;
     if (name) {
@@ -3138,6 +3145,7 @@ IDE_Morph.prototype.toggleAppMode = function (appMode) {
         });
     }
     this.setExtent(this.world().extent()); // resume trackChanges
+    this.fixLayout();
 };
 
 IDE_Morph.prototype.toggleStageSize = function (isSmall) {
